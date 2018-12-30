@@ -10,7 +10,7 @@ crosstools contains a GCC 6.3.1 cross-compiling toolchain. The sysroot contains 
 crosstools is primarily used to cross-complile native NodeJS modules. Here is an example of how to cross-compile an ARM 7 module for Raspberry Pi 2/3.
 
 ```
-TOOLCHAIN=crosstools/x64-gcc-6.3.1/arm-rpi-linux-gnueabihf/bin/arm-rpi-linux-gnueabihf
+TOOLCHAIN=crosstools/x64-gcc-6.3.1/arm-rpi-linux-gnueabihf/bin/arm-rpi-linux-gnueabihf-
 
 # Prevent the build machine's cflags and ldflags to be set by node-gyp.
 export npm_config_target_arch=unknown
