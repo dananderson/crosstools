@@ -3,7 +3,7 @@
 Compiled toolchain for creating ARM-based Gallery builds on Ubuntu 18.4 (64 bit).
 
 crosstools contains a GCC 6.3.1 cross-compiling toolchain. The sysroot contains ARM 6 binaries and SDL 2.0.8 installed. The toolchain has successfully procuded binaries for Raspberry Pi Zero, Raspberry Pi 2/3, PlayStation Classic and S/NES Classic systems.
-The compiled toolchain contains SDL 2.0.8 in sysroot.
+
 
 # Cross-Compiling Node Modules
 
