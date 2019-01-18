@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+case $1 in
+    rpi|rpizero|nclassic|psclassic)
+        DEVICE_PROFILE="$1"
+        shift
+    ;;
+    *)
+        echo "Error: First argument must be the target device: { rpi | rpizero | nclassic | psclassic }"
+        echo
+        echo "Usage: cross DEVICE yarn"
+        echo "       cross DEVICE npm install"
+        exit 1
+    ;;
+esac
+
+case $1 in
+    yarn|npm)
+    PACKAGE_MANAGER=$1
+    shift
+    ;;
+    *)
+    echo "Package manager must be yarn or npm."
+    exit 1
+    ;;
+esac
+
+TOOLCHAIN_HOME="${SCRIPT_DIR}/../x64-gcc-6.3.1"
+TOOLCHAIN_TYPE="arm-rpi-linux-gnueabihf"
+TOOLCHAIN_PREFIX="${TOOLCHAIN_HOME}/${TOOLCHAIN_TYPE}/bin/${TOOLCHAIN_TYPE}-"
+
+PYTHON=python2.7
+SYSROOT="${TOOLCHAIN_HOME}/${TOOLCHAIN_TYPE}/${TOOLCHAIN_TYPE}/sysroot"
+
+# Flags are for gcc 6.
+case ${DEVICE_PROFILE} in
+    rpizero)
+        CFLAGS="-Wl,--verbose -march=armv6zk -mcpu=arm1176jzf-s -mfloat-abi=hard -mfpu=vfp"
+        LDFLAGS="-Wl,--verbose -march=armv6zk -mcpu=arm1176jzf-s -mfloat-abi=hard -mfpu=vfp"
+    ;;
+    *)
+        # TODO: Get correct flags for each supported arm7 device.
+        # Note: flags are for raspberry pi 2/3, but the binaries work for other arm7 devices.
+        CFLAGS="-Wl,--verbose -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4"
+        LDFLAGS="-Wl,--verbose -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4"
+    ;;
+esac
+
+# XXX: Set the arch to something not defiend in ~/.node-gyp/.../common.gypi; otherwise, the host -march will be set.
+export npm_config_target_arch=unknown
+export npm_config_arch=unknown
+
+export CC="${TOOLCHAIN_PREFIX}gcc ${CLAGS}"
+export CXX="${TOOLCHAIN_PREFIX}g++ ${CFLAGS}"
+export AR=${TOOLCHAIN_PREFIX}ar
+export LINK="${TOOLCHAIN_PREFIX}g++ ${LDFLAGS}"
+export RANLIB=${TOOLCHAIN_PREFIX}ranlib
+export STRIP=${TOOLCHAIN_PREFIX}strip
+export OBJCOPY=${TOOLCHAIN_PREFIX}objcopy
+export OBJDUMP=${TOOLCHAIN_PREFIX}objdump
+export NM=${TOOLCHAIN_PREFIX}nm
+export AS=${TOOLCHAIN_PREFIX}as
+
+$PACKAGE_MANAGER "$@"
