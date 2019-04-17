@@ -6,4 +6,5 @@ install:
   - cd test
   - ./test-rpi.sh
   - ./test-rpizero.sh
-
+script:
+  - :
