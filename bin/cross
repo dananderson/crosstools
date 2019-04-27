@@ -37,14 +37,14 @@ SYSROOT="${TOOLCHAIN_HOME}/${TOOLCHAIN_TYPE}/${TOOLCHAIN_TYPE}/sysroot"
 # Flags are for gcc 6.
 case ${DEVICE_PROFILE} in
     rpizero)
-        CFLAGS="-Wl,--verbose -march=armv6zk -mcpu=arm1176jzf-s -mfloat-abi=hard -mfpu=vfp"
-        LDFLAGS="-Wl,--verbose -march=armv6zk -mcpu=arm1176jzf-s -mfloat-abi=hard -mfpu=vfp"
+        CFLAGS="-march=armv6zk -mcpu=arm1176jzf-s -mfloat-abi=hard -mfpu=vfp"
+        LDFLAGS="-march=armv6zk -mcpu=arm1176jzf-s -mfloat-abi=hard -mfpu=vfp"
     ;;
     *)
         # TODO: Get correct flags for each supported arm7 device.
         # Note: flags are for raspberry pi 2/3, but the binaries work for other arm7 devices.
-        CFLAGS="-Wl,--verbose -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4"
-        LDFLAGS="-Wl,--verbose -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4"
+        CFLAGS="-march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4"
+        LDFLAGS="-march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4"
     ;;
 esac
 
