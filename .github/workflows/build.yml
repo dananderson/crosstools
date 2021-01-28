@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+env:
+  npm_config_lse_install_opts: --jobs max
+
 jobs:
   build-job:
     if: github.event_name == 'push' && contains(toJson(github.event.commits), '[ci skip]') == false
