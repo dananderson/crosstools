@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "sqlite3": "4.0.6"
+    "@lse/core": "^1.1.0"
   }
 }
